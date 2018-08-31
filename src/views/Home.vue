@@ -28,8 +28,6 @@
               solo,
               v-model="newTodo")
 
-
-      <!-- main -->
       v-card(class="mt-3", v-show="todos.length")
         v-progress-linear.my-0(v-model="progressPercentage")/
         v-card-actions.px-3(v-show="todos.length")
