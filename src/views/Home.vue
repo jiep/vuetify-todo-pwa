@@ -1,91 +1,71 @@
-<template>
-  <v-layout row wrap>
-    <v-flex text-xs-center>
-      <!-- header -->
-      <h1 class="primary--text display-3 font-weight-medium my-3">TODOS</h1>
-      <v-card>
-        <v-list class="pa-0">
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-checkbox
-                :input-value="allChecked"
-                @change="toggleAll(!allChecked)"
+<template lang="pug">
+  v-layout(row, wrap)
+    v-flex(text-xs-center)
+      h1.primary--text.display-3.font-weight-medium.my-3 TODOS
+      v-card
+        v-list.pa-0
+          v-list-tile
+            v-list-tile-action
+              v-checkbox(
+                :input-value="allChecked",
+                @change="toggleAll(!allChecked)",
                 color="primary"
-                v-if="todos.length > 0"
-              ></v-checkbox>
-              <v-icon
-                color="primary"
-                v-else
-              >check</v-icon>
-            </v-list-tile-action>
-            <v-text-field
-              :label="'New todo input'"
-              @keydown.enter="addTodo"
-              autofocus
-              browser-autocomplete="off"
-              clearable
-              color="primary"
-              flat
-              hide-details
-              maxlength="1023"
-              placeholder="What needs to be done?"
-              solo
-              v-model="newTodo"
-            ></v-text-field>
-          </v-list-tile>
-        </v-list>
-      </v-card>
+                v-if="todos.length > 0")
+              v-icon(
+                color="primary",
+                v-else) check
+            v-text-field(
+              :label="'New todo input'",
+              @keydown.enter="addTodo",
+              autofocus,
+              browser-autocomplete="off",
+              clearable,
+              color="primary",
+              flat,
+              hide-details,
+              maxlength="1023",
+              placeholder="What needs to be done?",
+              solo,
+              v-model="newTodo")
+
+
       <!-- main -->
-      <v-card class="mt-3" v-show="todos.length">
-        <v-progress-linear class="my-0" v-model="progressPercentage"/>
-        <v-card-actions class="px-3" v-show="todos.length">
-          <span class="primary--text">
-            {{ remaining }} {{ remaining | pluralize('item') }} left
-          </span>
-          <v-spacer></v-spacer>
-          <v-btn-toggle
-            class="elevation-0"
-            mandatory
-            v-model="visibility"
-            v-show="todos.length"
-          >
-            <v-btn
-              :key="key"
-              :to="key"
-              :value="key"
-              class="mx-0"
-              color="primary"
-              flat
-              small
-              v-for="(val, key) in filters"
-            >
-              {{ key | capitalize }}
-            </v-btn>
-          </v-btn-toggle>
-        </v-card-actions>
-        <v-list class="pa-0">
-          <template v-for="todo in filteredTodos">
-            <v-divider :key="`${todo.uid}-divider`"></v-divider>
-            <TodoItem
-              :key="todo.uid"
-              :todo="todo"
-            />
-          </template>
-        </v-list>
-      </v-card>
-      <v-btn
-        @click="clearCompleted"
-        block
-        class="mt-3"
-        color="primary"
-        depressed
-        round
-        v-show="todos.length > remaining"
-      >
-        Clear completed
-      </v-btn>
-      <!-- footer -->
-      <footer-info></footer-info>
+      v-card(class="mt-3", v-show="todos.length")
+        v-progress-linear.my-0(v-model="progressPercentage")/
+        v-card-actions.px-3(v-show="todos.length")
+          span.primary--text {{ remaining }} {{ remaining | pluralize('item') }} left
+          v-spacer
+          v-btn-toggle(
+            class="elevation-0",
+            mandatory,
+            v-model="visibility",
+            v-show="todos.length")
+            v-btn(
+              :key="key",
+              :to="key",
+              :value="key",
+              class="mx-0",
+              color="primary",
+              flat,
+              small,
+              v-for="(val, key) in filters") {{ key | capitalize }}
+
+        v-list.pa-0
+          template(v-for="todo in filteredTodos")
+            v-divider(:key="`${todo.uid}-divider`")
+            TodoItem(
+              :key="todo.uid",
+              :todo="todo")/
+      v-btn(
+        @click="clearCompleted",
+        block,
+        class="mt-3",
+        color="primary",
+        depressed,
+        round,
+        v-show="todos.length > remaining") Clear completed
+
+      footer-info
     </v-flex>
   </v-layout>
 </template>
